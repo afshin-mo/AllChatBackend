@@ -16,10 +16,10 @@ module.exports = ( httpServer ) =>{
   
     io.on("connection", (socket) => {
     
-      logger.info(`${socket.request._query['test']} connected`);
+      logger.info(`${socket.request._query['username']} connected`);
     
       let newSocket = {
-        username: socket.request._query['test'],
+        email: socket.request._query['username'],
         socketId: socket.id
       };
       sockets.push(newSocket);
@@ -28,8 +28,8 @@ module.exports = ( httpServer ) =>{
     
       socket.on('disconnect', ()=>{
        var disconnectedSocket = sockets.find( s => s.socketId===socket.id );
-       sockets = sockets.filter ( s => s.username !== disconnectedSocket.username );
-       logger.info(disconnectedSocket.username, ' diconnected');
+       sockets = sockets.filter ( s => s.email !== disconnectedSocket.email );
+       logger.info(disconnectedSocket.email, ' diconnected');
        io.emit('new_online_user', (sockets));
       })
       
